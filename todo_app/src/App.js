@@ -9,12 +9,12 @@ class App extends Component {
           <h1>List of comments</h1>
           <div>
             {comments.map(comment => (
-              <div>
+              <React.Fragment key={comment.id}>
                 <p>Name: {comment.name}</p>
                 <p>Email: {comment.email}</p>
                 <p>Body: {comment.body}</p>
                 <br />
-              </div>
+              </React.Fragment>
             ))}
           </div>
         </header>
