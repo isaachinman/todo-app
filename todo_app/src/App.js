@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
-import { comments } from './comments';
+import todos from './todos';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <h1>List of comments</h1>
+          <h1>Todo list</h1>
+        </header>
+        <main>
           <div>
-            {comments.map(comment => (
-              <React.Fragment key={comment.id}>
-                <p>Name: {comment.name}</p>
-                <p>Email: {comment.email}</p>
-                <p>Body: {comment.body}</p>
+            {todos.map(({ userId, title, completed, id }) => (
+              <React.Fragment key={id}>
+                <p>UserId: {userId}</p>
+                <p>Title: {title}</p>
+                <p>Completed: {completed.toString()}</p>
                 <br />
               </React.Fragment>
             ))}
           </div>
-        </header>
+        </main>
       </div>
     );
   }
