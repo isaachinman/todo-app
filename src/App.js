@@ -1,49 +1,36 @@
 import React, { Component } from 'react';
 import { v4 } from 'uuid';
 import './App.css';
+import existingTodos from './initialTodoState';
 
 class App extends Component {
   state = {
-    tempDescription: '',
-    todos: [
-      {
-        id: v4(),
-        description: 'delectus aut autem',
-        completed: false,
-      },
-      {
-        id: v4(),
-        description: 'quis ut nam facilis et officia qui',
-        completed: false,
-      },
-      {
-        id: v4(),
-        description: 'fugiat veniam minus',
-        completed: false,
-      },
-      {
-        id: v4(),
-        description: 'et porro tempora',
-        completed: true,
-      },
-    ],
+    newTodo: {
+      description: '',
+    },
+    todos: existingTodos,
   };
 
   handleSubmit = event => {
-    event.preventDefault(); //not sure why I had to add this but read about it online - it fixed an issue with the todo not appearing on the screen
+    event.preventDefault();
     const todo = {
       id: v4(),
-      description: this.state.tempDescription,
+      description: this.state.newTodo.description,
       completed: false,
     };
     this.setState({
       todos: [todo, ...this.state.todos],
-      tempDescription: '',
+      newTodo: { ...this.state.newTodo, description: '' },
     });
   };
 
   handleChange = event => {
-    this.setState({ tempDescription: event.target.value });
+    this.setState({
+      newTodo: {
+        ...this.state.newTodo,
+        description: event.target.value,
+      },
+    });
   };
 
   render() {
@@ -64,20 +51,18 @@ class App extends Component {
               </div>
             ))}
             <h2>Add New Todos</h2>
-            <div>
-              <form onSubmit={this.handleSubmit}>
-                <label>
-                  Add new Todo item
-                  <input
-                    type="text"
-                    value={this.state.tempDescription}
-                    onChange={this.handleChange}
-                    required
-                  />
-                </label>
-                <button onClick={this.handleSubmit}>Add Todo</button>
-              </form>
-            </div>
+            <form onSubmit={this.handleSubmit}>
+              <label>
+                Add new Todo item
+                <input
+                  type="text"
+                  value={this.state.newTodo.description}
+                  onChange={this.handleChange}
+                  required
+                />
+              </label>
+              <button onClick={this.handleSubmit}>Add Todo</button>
+            </form>
             <br />
           </div>
         </main>
