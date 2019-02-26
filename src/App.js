@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { v4 } from 'uuid';
 import './App.css';
 import existingTodos from './initialTodoState';
+import TodoItems from './TodoItems';
+import TodoForm from './TodoForm';
 
 class App extends Component {
   state = {
@@ -13,21 +15,31 @@ class App extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const todo = {
-      id: v4(),
-      description: this.state.newTodo.description,
-      completed: false,
-    };
+    if (this.state.newTodo.description) {
+      const todo = {
+        id: v4(),
+        description: this.state.newTodo.description,
+        completed: false,
+      };
+      this.setState({
+        todos: [todo, ...this.state.todos],
+        newTodo: { description: '' }, //removed spread from here, good or bad idea?
+      });
+    }
+  };
+
+  handleDelete = id => {
+    const newTodos = this.state.todos.filter(todo => todo.id !== id);
     this.setState({
-      todos: [todo, ...this.state.todos],
-      newTodo: { ...this.state.newTodo, description: '' },
+      todos: newTodos,
     });
   };
 
   handleChange = event => {
     this.setState({
       newTodo: {
-        ...this.state.newTodo,
+        // ...this.state.newTodo,    //originally had this spread implemented then tried to simplify
+        // the code as I think it's not needed, good practise or not?
         description: event.target.value,
       },
     });
@@ -37,33 +49,20 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h1>Current Todo list</h1>
+          <h2>Add New Todos</h2>
+          <TodoForm
+            handleSubmit={this.handleSubmit}
+            handleChange={this.handleChange}
+            newTodoDescription={this.state.newTodo.description}
+          />
         </header>
         <main>
+          <h3>Current Todo list</h3>
           <div>
-            {this.state.todos.map(({ description, completed, id }, i) => (
-              <div className="todo" key={`todo-${id}`}>
-                <h5>Todo item {i + 1}</h5>
-                <p>Id: {id}</p>
-                <p>Description: {description}</p>
-                <p>Completed: {completed.toString()}</p>
-                <br />
-              </div>
-            ))}
-            <h2>Add New Todos</h2>
-            <form onSubmit={this.handleSubmit}>
-              <label>
-                Add new Todo item
-                <input
-                  type="text"
-                  value={this.state.newTodo.description}
-                  onChange={this.handleChange}
-                  required
-                />
-              </label>
-              <button onClick={this.handleSubmit}>Add Todo</button>
-            </form>
-            <br />
+            <TodoItems
+              todos={this.state.todos}
+              deleteTodo={this.handleDelete}
+            />
           </div>
         </main>
       </div>
