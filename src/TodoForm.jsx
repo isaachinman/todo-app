@@ -3,6 +3,7 @@ import React from 'react';
 const TodoForm = ({ handleChange, handleSubmit, newTodoDescription }) => {
   return (
     <>
+      <h2>Add New Todos</h2>
       <form onSubmit={handleSubmit}>
         <label>
           Add new Todo item

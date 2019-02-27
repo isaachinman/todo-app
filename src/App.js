@@ -14,6 +14,7 @@ class App extends Component {
   };
 
   handleSubmit = event => {
+    //am I supposed to use const in front of method name? unable to, only for .ts files error???
     event.preventDefault();
     if (this.state.newTodo.description) {
       const todo = {
@@ -45,11 +46,18 @@ class App extends Component {
     });
   };
 
+  handleToggleTodo = id => {
+    //probably a better way to do this but took me a while to get this working
+    const todoPosition = this.state.todos.findIndex(todo => todo.id === id);
+    const newTodos = this.state.todos;
+    newTodos[todoPosition].completed = !newTodos[todoPosition].completed;
+    this.setState({ todos: newTodos });
+  };
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <h2>Add New Todos</h2>
           <TodoForm
             handleSubmit={this.handleSubmit}
             handleChange={this.handleChange}
@@ -62,6 +70,7 @@ class App extends Component {
             <TodoItems
               todos={this.state.todos}
               deleteTodo={this.handleDelete}
+              toggleTodo={this.handleToggleTodo}
             />
           </div>
         </main>
