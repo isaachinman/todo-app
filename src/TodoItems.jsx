@@ -1,10 +1,7 @@
 import React from 'react';
 
 const TodoItems = ({ todos, deleteTodo, toggleTodo }) =>
-  todos.map((
-    todo,
-    i // map returns array, is the returned array accepted ok to be rendered in a div not a ul?
-  ) => (
+  todos.map((todo, i) => (
     <div className="todoItemsContainer" key={`todo-${todo.id}`}>
       <div className="todo">
         <h5>Todo item {i + 1}</h5>
@@ -16,13 +13,13 @@ const TodoItems = ({ todos, deleteTodo, toggleTodo }) =>
         <input
           type="checkbox"
           id="todoCompleted"
-          checked={todo.completed} //getting an error in console for this, use defaultchecked??
-          onClick={() => toggleTodo(todo.id)} // better to use onclick or onchange?
+          checked={todo.completed}
+          onChange={() => toggleTodo(todo.id)}
         />
       </div>
       <button
         className="deleteButton buttonStyles"
-        onClick={() => deleteTodo(todo.id)} //is this id not only set when the map is done? does it persist after? is each button associated with a component here
+        onClick={() => deleteTodo(todo.id)}
       >
         Delete Todo
       </button>
