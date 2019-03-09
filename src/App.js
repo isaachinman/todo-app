@@ -35,6 +35,17 @@ class App extends Component {
     });
   };
 
+  handleDueDate = (e, id) => {
+    this.setState({
+      todos: this.state.todos.map(todo => {
+        if (todo.id === id) {
+          todo.dueDate = e.target.value;
+        }
+        return todo;
+      }),
+    });
+  };
+
   handleChange = event => {
     this.setState({
       newTodo: {
@@ -69,6 +80,8 @@ class App extends Component {
           <div>
             <TodoItems
               todos={this.state.todos}
+              dueDate={this.state.dueDate}
+              setDueDate={this.handleDueDate}
               deleteTodo={this.handleDelete}
               toggleTodo={this.handleToggleTodo}
             />
